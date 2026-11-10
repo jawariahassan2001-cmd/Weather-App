@@ -40,10 +40,12 @@ The application uses external weather and geocoding services to retrieve informa
 | ReportLab | PDF generation |
 | Open-Meteo | Weather data and city geocoding |
 | OpenStreetMap Nominatim | Postal-code and landmark geocoding |
+| Pytest | Automated testing |
+| Ruff | Code linting and quality checks |
 
 ## How It Works
 
-The application follows a simple service-based structure:
+The application follows a service-based structure:
 
 1. A user sends a request through an API endpoint.
 2. The location service identifies the requested location using the appropriate geocoding provider.
@@ -56,24 +58,30 @@ Weather information is retrieved from external APIs, but exports are generated f
 ## Project Structure
 
 ```text
-Weather App/
+Weather-App/
 │
 ├── app/
+│   ├── __init__.py
 │   ├── database/
+│   │   ├── __init__.py
 │   │   └── connection.py
 │   │
 │   ├── models/
+│   │   ├── __init__.py
 │   │   └── weather.py
 │   │
 │   ├── schemas/
+│   │   ├── __init__.py
 │   │   └── weather.py
 │   │
 │   ├── routes/
+│   │   ├── __init__.py
 │   │   ├── weather.py
 │   │   ├── export.py
 │   │   └── locations.py
 │   │
 │   ├── services/
+│   │   ├── __init__.py
 │   │   ├── geocoding.py
 │   │   ├── nominatim_service.py
 │   │   ├── location_service.py
@@ -83,9 +91,16 @@ Weather App/
 │   └── main.py
 │
 ├── tests/
+│   ├── test_date_range.py
+│   ├── test_location_weather.py
+│   ├── test_nominatim.py
+│   ├── test_schemas.py
+│   └── test_weather_service.py
 │
-├── requirements.txt
 ├── .gitignore
+├── pytest.ini
+├── pyproject.toml
+├── requirements.txt
 └── README.md
 ```
 
@@ -99,25 +114,25 @@ Make sure you have the following installed:
 
 - Python 3.13 or a compatible Python version.
 - pip
-- Git (optional, for cloning the repository).
+- Git
 - An active internet connection for external weather and geocoding requests.
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
-```bash
-git clone <your-repository-url>
-cd "Weather App"
+```powershell
+git clone https://github.com/jawariahassan2001-cmd/Weather-App.git
+cd Weather-App
 ```
 
 If you already have the project on your computer, simply open its root folder in VS Code.
 
-### 2. Create a virtual environment
+### 2. Create a Virtual Environment
 
-```bash
+```powershell
 python -m venv .venv
 ```
 
-### 3. Activate the virtual environment
+### 3. Activate the Virtual Environment
 
 For Windows PowerShell:
 
@@ -125,15 +140,21 @@ For Windows PowerShell:
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 4. Install dependencies
+### 4. Upgrade pip
 
-```bash
+```powershell
+python -m pip install --upgrade pip
+```
+
+### 5. Install Dependencies
+
+```powershell
 python -m pip install -r requirements.txt
 ```
 
-### 5. Start the application
+### 6. Start the Application
 
-```bash
+```powershell
 python -m uvicorn app.main:app --reload
 ```
 
@@ -265,6 +286,38 @@ Different location inputs are handled through a shared location-resolution servi
 
 When a country is provided, the application uses it to narrow down location results where possible.
 
+## Automated Testing
+
+The project uses Pytest to run automated tests. External API calls are mocked in the tests, allowing the test suite to run without depending on live weather or geocoding services.
+
+Run all tests:
+
+```powershell
+python -m pytest -v
+```
+
+## Code Quality Checks
+
+The project uses Ruff to check code quality and formatting-related lint issues.
+
+If Ruff is not already installed:
+
+```powershell
+python -m pip install ruff
+```
+
+Run the lint checks:
+
+```powershell
+python -m ruff check app tests
+```
+
+Compile the application files to check for Python syntax errors:
+
+```powershell
+python -m compileall app
+```
+
 ## Error Handling
 
 The API uses appropriate HTTP status codes to communicate errors.
@@ -283,12 +336,14 @@ The API uses appropriate HTTP status codes to communicate errors.
 
 This project uses the following external services:
 
-**Open-Meteo**  
+**Open-Meteo**
+
 Provides weather information, forecasts, historical weather data, and city geocoding.
 
 Website: https://open-meteo.com/
 
-**OpenStreetMap Nominatim**  
+**OpenStreetMap Nominatim**
+
 Provides location search for postal codes, landmarks, and other geographic places.
 
 Website: https://nominatim.org/
@@ -309,14 +364,6 @@ A few things are worth keeping in mind about the current implementation:
 - SQLite is suitable for this assessment and small-scale use, but a larger deployment may require a server-based database.
 - The application currently provides a backend API and Swagger documentation rather than a separate frontend.
 - Authentication and user-specific access control are not implemented.
-
-## About Product Manager Accelerator
-
-Product Manager Accelerator (PMA) is an e-learning provider that supports professionals throughout their product-management careers, from entry-level opportunities to senior product and leadership roles.
-
-Its programs include product-management training, career development, leadership skills, interview preparation, and AI product-management education.
-
-Company profile: https://www.linkedin.com/school/pmaccelerator/
 
 ## Author
 
