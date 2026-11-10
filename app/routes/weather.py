@@ -1,36 +1,32 @@
 
-import httpx
+import asyncio
 
-from fastapi import APIRouter, HTTPException, Query, Depends
+import httpx
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.database.connection import get_db
 from app.schemas.weather import (
     WeatherCreate,
-    WeatherUpdate,
     WeatherResponse,
+    WeatherUpdate,
 )
-
 from app.services.geocoding import (
-    LocationNotFound,
     GeocodingError,
+    LocationNotFound,
 )
-
 from app.services.location_service import resolve_locations
-
+from app.services.weather_repository import (
+    create_weather_record,
+    delete_weather_record,
+    get_all_weather_records,
+    get_weather_record_by_id,
+    update_weather_record,
+)
 from app.services.weather_service import (
     get_weather_by_location,
     get_weather_for_date_range,
 )
-
-from app.services.weather_repository import (
-    create_weather_record,
-    get_all_weather_records,
-    get_weather_record_by_id,
-    update_weather_record,
-    delete_weather_record,
-)
-
 
 router = APIRouter(
     prefix="/api/weather",
@@ -82,7 +78,8 @@ async def create_weather(
     db: Session = Depends(get_db),
 ):
     try:
-        locations = resolve_locations(
+        locations = await asyncio.to_thread(
+            resolve_locations,
             request.location,
             request.country,
         )
@@ -174,7 +171,8 @@ async def update_weather(
         )
 
     try:
-        locations = resolve_locations(
+        locations = await asyncio.to_thread(
+            resolve_locations,
             request.location,
             request.country,
         )
