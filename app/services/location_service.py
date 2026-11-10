@@ -1,9 +1,8 @@
 import re
 
 from app.services.geocoding import (
-    geocode,
     LocationNotFound,
-    GeocodingError,
+    geocode,
 )
 from app.services.nominatim_service import search_nominatim
 

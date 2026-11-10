@@ -1,8 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
 
+from app.services.geocoding import GeocodingError, LocationNotFound
 from app.services.location_service import resolve_locations
-from app.services.geocoding import LocationNotFound, GeocodingError
-
 
 router = APIRouter(
     prefix="/api/locations",

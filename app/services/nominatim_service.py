@@ -1,10 +1,10 @@
 
-import httpx
-import time
 import threading
+import time
 
-from app.services.geocoding import LocationNotFound, GeocodingError
+import httpx
 
+from app.services.geocoding import GeocodingError, LocationNotFound
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 

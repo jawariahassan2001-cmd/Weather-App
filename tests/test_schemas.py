@@ -1,27 +1,56 @@
-from app.schemas.weather import WeatherCreate
+
+import pytest
 from pydantic import ValidationError
 
-# Test 1: Valid input
-try:
+from app.schemas.weather import WeatherCreate, WeatherUpdate
+
+
+def test_valid_weather_create():
     data = WeatherCreate(
         location="Islamabad",
         start_date="2026-11-09",
-        end_date="2026-11-12"
+        end_date="2026-11-12",
     )
-    print("Valid input:", data)
 
-except ValidationError as e:
-    print("Validation failed:", e)
+    assert data.location == "Islamabad"
+    assert data.start_date.isoformat() == "2026-11-09"
+    assert data.end_date.isoformat() == "2026-11-12"
 
 
-# Test 2: Invalid date range
-try:
-    data = WeatherCreate(
-        location="Islamabad",
-        start_date="2026-11-12",
-        end_date="2026-11-09"
+def test_weather_create_rejects_end_date_before_start_date():
+    with pytest.raises(ValidationError):
+        WeatherCreate(
+            location="Islamabad",
+            start_date="2026-11-12",
+            end_date="2026-11-09",
+        )
+
+
+def test_weather_create_rejects_location_shorter_than_two_characters():
+    with pytest.raises(ValidationError):
+        WeatherCreate(
+            location="A",
+            start_date="2026-11-09",
+            end_date="2026-11-12",
+        )
+
+
+def test_valid_weather_update():
+    data = WeatherUpdate(
+        location="Lahore",
+        start_date="2026-11-09",
+        end_date="2026-11-12",
     )
-    print("Unexpected success:", data)
 
-except ValidationError as e:
-    print("\nInvalid date range correctly rejected.")
+    assert data.location == "Lahore"
+    assert data.start_date.isoformat() == "2026-11-09"
+    assert data.end_date.isoformat() == "2026-11-12"
+
+
+def test_weather_update_rejects_end_date_before_start_date():
+    with pytest.raises(ValidationError):
+        WeatherUpdate(
+            location="Lahore",
+            start_date="2026-11-12",
+            end_date="2026-11-09",
+        )
