@@ -2,8 +2,8 @@
 
 A backend application for retrieving, storing, managing, and exporting weather information for different locations.
 
-**Developer:** Jawaria Hassan  
-**Project:** Weather Intelligence Platform  
+**Developer:** Jawaria Hassan
+**Project:** Weather Intelligence Platform
 **Version:** 1.0.0
 
 ## About the Project
@@ -28,20 +28,20 @@ The application uses external weather and geocoding services to retrieve informa
 
 ## Technology Stack
 
-| Technology | Purpose |
-|---|---|
-| Python | Main programming language |
-| FastAPI | REST API development |
-| Uvicorn | ASGI server |
-| SQLAlchemy | Database operations and ORM |
-| SQLite | Local database |
-| Pydantic | Request validation and response schemas |
-| HTTPX | Communication with external APIs |
-| ReportLab | PDF generation |
-| Open-Meteo | Weather data and city geocoding |
-| OpenStreetMap Nominatim | Postal-code and landmark geocoding |
-| Pytest | Automated testing |
-| Ruff | Code linting and quality checks |
+| Technology              | Purpose                                 |
+| ----------------------- | --------------------------------------- |
+| Python                  | Main programming language               |
+| FastAPI                 | REST API development                    |
+| Uvicorn                 | ASGI server                             |
+| SQLAlchemy              | Database operations and ORM             |
+| SQLite                  | Local database                          |
+| Pydantic                | Request validation and response schemas |
+| HTTPX                   | Communication with external APIs        |
+| ReportLab               | PDF generation                          |
+| Open-Meteo              | Weather data and city geocoding         |
+| OpenStreetMap Nominatim | Postal-code and landmark geocoding      |
+| Pytest                  | Automated testing                       |
+| Ruff                    | Code linting and quality checks         |
 
 ## How It Works
 
@@ -70,47 +70,12 @@ Weather information is retrieved from external APIs, but exports are generated f
 Weather-App/
 │
 ├── app/
-│   ├── __init__.py
-│   ├── database/
-│   │   ├── __init__.py
-│   │   └── connection.py
-│   │
-│   ├── models/
-│   │   ├── __init__.py
-│   │   └── weather.py
-│   │
-│   ├── schemas/
-│   │   ├── __init__.py
-│   │   └── weather.py
-│   │
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── weather.py
-│   │   ├── export.py
-│   │   └── locations.py
-│   │
-│   ├── services/
-│   │   ├── __init__.py
-│   │   ├── geocoding.py
-│   │   ├── nominatim_service.py
-│   │   ├── location_service.py
-│   │   ├── weather_service.py
-│   │   └── weather_repository.py
-│   │
-│   └── main.py
-│
 ├── tests/
-│   ├── test_date_range.py
-│   ├── test_location_weather.py
-│   ├── test_nominatim.py
-│   ├── test_schemas.py
-│   └── test_weather_service.py
-│
 ├── .gitignore
-├── pytest.ini
+├── README.md
 ├── pyproject.toml
-├── requirements.txt
-└── README.md
+├── pytest.ini
+└── requirements.txt
 ```
 
 The `weather.db` file is created locally when the application initializes its database. It is intentionally excluded from Git.
@@ -121,7 +86,7 @@ The `weather.db` file is created locally when the application initializes its da
 
 Make sure you have the following installed:
 
-- Python 3.13 or a compatible Python version
+- Python 3.13 (tested on Python 3.13.14)
 - pip
 - Git
 - An active internet connection for external weather and geocoding requests
@@ -147,6 +112,12 @@ For Windows PowerShell:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
+```
+
+For macOS and Linux:
+
+```bash
+source .venv/bin/activate
 ```
 
 ### 4. Upgrade pip
@@ -189,20 +160,20 @@ The endpoints can be explored and tested through Swagger UI or external API test
 
 ### Weather
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/weather/current` | Retrieve current weather |
-| POST | `/api/weather/` | Retrieve and save weather for a date range |
-| GET | `/api/weather/` | Retrieve all saved records |
-| GET | `/api/weather/{record_id}` | Retrieve one saved record |
-| PUT | `/api/weather/{record_id}` | Update an existing record |
-| DELETE | `/api/weather/{record_id}` | Delete a saved record |
+| Method | Endpoint                   | Description                                |
+| ------ | -------------------------- | ------------------------------------------ |
+| GET    | `/api/weather/current`     | Retrieve current weather                   |
+| POST   | `/api/weather/`            | Retrieve and save weather for a date range |
+| GET    | `/api/weather/`            | Retrieve all saved records                 |
+| GET    | `/api/weather/{record_id}` | Retrieve one saved record                  |
+| PUT    | `/api/weather/{record_id}` | Update an existing record                  |
+| DELETE | `/api/weather/{record_id}` | Delete a saved record                      |
 
 ### Location Search
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/locations/search` | Search for a location |
+| Method | Endpoint                | Description           |
+| ------ | ----------------------- | --------------------- |
+| GET    | `/api/locations/search` | Search for a location |
 
 Example:
 
@@ -212,20 +183,20 @@ Example:
 
 ### Data Export
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/export/json` | Export records as JSON |
-| GET | `/api/export/csv` | Export records as CSV |
-| GET | `/api/export/xml` | Export records as XML |
-| GET | `/api/export/pdf` | Export records as PDF |
-| GET | `/api/export/markdown` | Export records as Markdown |
+| Method | Endpoint               | Description                |
+| ------ | ---------------------- | -------------------------- |
+| GET    | `/api/export/json`     | Export records as JSON     |
+| GET    | `/api/export/csv`      | Export records as CSV      |
+| GET    | `/api/export/xml`      | Export records as XML      |
+| GET    | `/api/export/pdf`      | Export records as PDF      |
+| GET    | `/api/export/markdown` | Export records as Markdown |
 
 ### General
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/` | API welcome message |
-| GET | `/health` | Application health check |
+| Method | Endpoint  | Description              |
+| ------ | --------- | ------------------------ |
+| GET    | `/`       | API welcome message      |
+| GET    | `/health` | Application health check |
 
 ## Example Requests
 
@@ -263,14 +234,16 @@ Request body:
 {
   "location": "Islamabad",
   "country": "Pakistan",
-  "start_date": "2026-11-09",
-  "end_date": "2026-11-10"
+  "start_date": "2026-11-12",
+  "end_date": "2026-11-13"
 }
 ```
 
 The application resolves the location, retrieves weather data for the requested period, and saves the result in the SQLite database.
 
 A successful request returns HTTP `201 Created` with the saved record.
+
+**Note:** Adjust the dates to be within the supported historical or 16-day forecast range.
 
 ## Date Validation
 
@@ -305,8 +278,6 @@ Run all tests:
 python -m pytest -v
 ```
 
-The current test suite contains 24 automated tests.
-
 ## Code Quality Checks
 
 The project uses Ruff to check code quality and lint issues.
@@ -333,15 +304,15 @@ python -m compileall app tests
 
 The API uses appropriate HTTP status codes to communicate errors.
 
-| Status Code | Meaning |
-|---|---|
-| 200 | Request completed successfully |
-| 201 | Weather record created |
-| 404 | Location or record not found |
-| 422 | Invalid input or date range |
-| 502 | External service error |
-| 504 | External service timeout |
-| 500 | Internal server error |
+| Status Code | Meaning                        |
+| ----------- | ------------------------------ |
+| 200         | Request completed successfully |
+| 201         | Weather record created         |
+| 404         | Location or record not found   |
+| 422         | Invalid input or date range    |
+| 502         | External service error         |
+| 504         | External service timeout       |
+| 500         | Internal server error          |
 
 ## External Services and Attribution
 
@@ -351,25 +322,23 @@ This project uses the following external services:
 
 Provides weather information, forecasts, historical weather data, and city geocoding.
 
-Website: https://open-meteo.com/
+Website: [https://open-meteo.com/](https://open-meteo.com/)
 
 **OpenStreetMap Nominatim**
 
 Provides location search for postal codes, landmarks, and other geographic places.
 
-Website: https://nominatim.org/
+Website: [https://nominatim.org/](https://nominatim.org/)
 
 Location data is provided by OpenStreetMap contributors.
 
-© OpenStreetMap contributors — https://www.openstreetmap.org/copyright
+© OpenStreetMap contributors — [https://www.openstreetmap.org/copyright](https://www.openstreetmap.org/copyright)
 
 Nominatim's public service has a usage policy, including a maximum request rate of one request per second. This application includes request spacing for its Nominatim calls and is intended for low-volume use.
 
 ## About Product Manager Accelerator (PMA)
 
-Product Manager Accelerator (PMA) is a professional development and training organization focused on supporting product management professionals throughout different stages of their careers.
-
-According to its LinkedIn overview, the organization supports individuals ranging from students seeking entry-level product management roles to experienced professionals pursuing leadership positions.
+Product Manager Accelerator (PMA) is a professional development and training organization focused on supporting product management professionals throughout different stages of their careers.The organization supports individuals ranging from students seeking entry-level product management roles to experienced professionals pursuing leadership positions.
 
 Its services include:
 
@@ -380,13 +349,13 @@ Its services include:
 - **1:1 Resume Review:** Individual resume guidance for product management professionals.
 - **Free Learning Resources:** The organization also provides free training and educational content through its online platforms.
 
-Website: https://www.pmaccelerator.io/
+Website: [https://www.pmaccelerator.io/](https://www.pmaccelerator.io/)
 
-LinkedIn: https://www.linkedin.com/company/product-manager-accelerator/
+LinkedIn: [https://www.linkedin.com/company/product-manager-accelerator/](https://www.linkedin.com/company/product-manager-accelerator/)
 
-YouTube: https://www.youtube.com/c/drnancyli
+YouTube: [https://www.youtube.com/c/drnancyli](https://www.youtube.com/c/drnancyli)
 
-The information above is based on the organization's supplied LinkedIn overview and is included for informational purposes.
+The information above is based on the organization's LinkedIn overview and is included for informational purposes.
 
 ## Current Limitations
 
