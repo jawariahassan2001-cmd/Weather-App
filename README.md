@@ -8,9 +8,9 @@ A backend application for retrieving, storing, managing, and exporting weather i
 
 ## About the Project
 
-The idea behind this project is simple: provide a single API where users can search for a location, retrieve its weather information, save weather records for a selected date range, manage those records, and export the stored data in different formats.
+The Weather Intelligence Platform provides a single API where users can search for locations, retrieve current weather information, save weather records for a selected date range, manage stored records, and export weather data in different formats.
 
-The application uses external weather and geocoding services to retrieve information and stores the results in a local SQLite database. FastAPI provides the API endpoints, while Swagger UI makes it easy to explore and test the application without needing a separate frontend.
+The application uses external weather and geocoding services to retrieve information and stores the results in a local SQLite database. FastAPI provides the REST API endpoints, while automatically generated API documentation makes the endpoints easy to explore and understand.
 
 ## Features
 
@@ -24,7 +24,7 @@ The application uses external weather and geocoding services to retrieve informa
 - Export saved database records as JSON, CSV, XML, PDF, and Markdown.
 - Validate locations, date ranges, and record IDs.
 - Handle errors from external services and invalid requests.
-- Provide API health-check and documentation endpoints.
+- Provide API health-check and interactive documentation endpoints.
 
 ## Technology Stack
 
@@ -45,7 +45,7 @@ The application uses external weather and geocoding services to retrieve informa
 
 ## How It Works
 
-The application follows a service-based structure:
+The application follows a service-based architecture:
 
 1. A user sends a request through an API endpoint.
 2. The location service identifies the requested location using the appropriate geocoding provider.
@@ -54,6 +54,15 @@ The application follows a service-based structure:
 5. The export endpoints retrieve existing database records and generate the requested file format.
 
 Weather information is retrieved from external APIs, but exports are generated from records already stored in the database. Exporting does not make a fresh weather API request.
+
+## Design Decisions
+
+- **SQLite:** Selected as a lightweight local database that does not require a separate database server. It is suitable for this assessment and small-scale use.
+- **SQLAlchemy:** Used as an ORM to manage database operations and separate database logic from API routes.
+- **Weather data storage:** Retrieved weather information is stored with each record so previously requested information can be viewed and exported without making another external weather API request.
+- **Date-range validation:** Historical and forecast requests use different Open-Meteo APIs. Ranges crossing today's date are rejected to avoid combining results from two different API sources in a single request.
+- **Location resolution:** Open-Meteo is used for city and town searches, while Nominatim provides additional support for postal codes and landmarks.
+- **Record updates:** Updating a record retrieves weather information for the updated location and date range, validates the request, and updates the stored record.
 
 ## Project Structure
 
@@ -112,14 +121,14 @@ The `weather.db` file is created locally when the application initializes its da
 
 Make sure you have the following installed:
 
-- Python 3.13 or a compatible Python version.
+- Python 3.13 or a compatible Python version
 - pip
 - Git
-- An active internet connection for external weather and geocoding requests.
+- An active internet connection for external weather and geocoding requests
 
 ### 1. Clone the Repository
 
-```powershell
+```bash
 git clone https://github.com/jawariahassan2001-cmd/Weather-App.git
 cd Weather-App
 ```
@@ -128,7 +137,7 @@ If you already have the project on your computer, simply open its root folder in
 
 ### 2. Create a Virtual Environment
 
-```powershell
+```bash
 python -m venv .venv
 ```
 
@@ -142,19 +151,19 @@ For Windows PowerShell:
 
 ### 4. Upgrade pip
 
-```powershell
+```bash
 python -m pip install --upgrade pip
 ```
 
 ### 5. Install Dependencies
 
-```powershell
+```bash
 python -m pip install -r requirements.txt
 ```
 
 ### 6. Start the Application
 
-```powershell
+```bash
 python -m uvicorn app.main:app --reload
 ```
 
@@ -166,7 +175,7 @@ http://127.0.0.1:8000
 
 ## API Documentation
 
-FastAPI automatically generates interactive API documentation.
+FastAPI automatically generates interactive API documentation using Swagger UI.
 
 Open the following URL in your browser:
 
@@ -174,7 +183,7 @@ Open the following URL in your browser:
 http://127.0.0.1:8000/docs
 ```
 
-You can use Swagger UI to send requests, provide JSON request bodies, inspect responses, and test the available endpoints.
+The endpoints can be explored and tested through Swagger UI or external API testing tools such as Thunder Client in Visual Studio Code.
 
 ## API Endpoints
 
@@ -259,7 +268,7 @@ Request body:
 }
 ```
 
-The application resolves the location, retrieves the weather data for the requested period, and saves the result in the SQLite database.
+The application resolves the location, retrieves weather data for the requested period, and saves the result in the SQLite database.
 
 A successful request returns HTTP `201 Created` with the saved record.
 
@@ -292,30 +301,32 @@ The project uses Pytest to run automated tests. External API calls are mocked in
 
 Run all tests:
 
-```powershell
+```bash
 python -m pytest -v
 ```
 
+The current test suite contains 24 automated tests.
+
 ## Code Quality Checks
 
-The project uses Ruff to check code quality and formatting-related lint issues.
+The project uses Ruff to check code quality and lint issues.
 
 If Ruff is not already installed:
 
-```powershell
+```bash
 python -m pip install ruff
 ```
 
 Run the lint checks:
 
-```powershell
+```bash
 python -m ruff check app tests
 ```
 
 Compile the application files to check for Python syntax errors:
 
-```powershell
-python -m compileall app
+```bash
+python -m compileall app tests
 ```
 
 ## Error Handling
@@ -354,6 +365,29 @@ Location data is provided by OpenStreetMap contributors.
 
 Nominatim's public service has a usage policy, including a maximum request rate of one request per second. This application includes request spacing for its Nominatim calls and is intended for low-volume use.
 
+## About Product Manager Accelerator (PMA)
+
+Product Manager Accelerator (PMA) is a professional development and training organization focused on supporting product management professionals throughout different stages of their careers.
+
+According to its LinkedIn overview, the organization supports individuals ranging from students seeking entry-level product management roles to experienced professionals pursuing leadership positions.
+
+Its services include:
+
+- **PMA Pro:** A product management career program focused on job preparation, interview practice, and professional networking.
+- **AI PM Bootcamp:** A practical program focused on AI product management, including building real-world AI products with cross-functional teams.
+- **PMA Power Skills:** Training designed to strengthen product management, leadership, and executive presentation skills.
+- **PMA Leader:** Career development support for product managers pursuing director and executive-level positions.
+- **1:1 Resume Review:** Individual resume guidance for product management professionals.
+- **Free Learning Resources:** The organization also provides free training and educational content through its online platforms.
+
+Website: https://www.pmaccelerator.io/
+
+LinkedIn: https://www.linkedin.com/company/product-manager-accelerator/
+
+YouTube: https://www.youtube.com/c/drnancyli
+
+The information above is based on the organization's supplied LinkedIn overview and is included for informational purposes.
+
 ## Current Limitations
 
 A few things are worth keeping in mind about the current implementation:
@@ -362,8 +396,9 @@ A few things are worth keeping in mind about the current implementation:
 - Forecast availability is limited by the provider's supported forecast range.
 - Nominatim's public service is not intended for heavy production traffic.
 - SQLite is suitable for this assessment and small-scale use, but a larger deployment may require a server-based database.
-- The application currently provides a backend API and Swagger documentation rather than a separate frontend.
+- The application currently provides a backend API and automatically generated Swagger documentation rather than a separate frontend.
 - Authentication and user-specific access control are not implemented.
+- The application is designed for local execution and has not been deployed to a public hosting provider.
 
 ## Author
 
